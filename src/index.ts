@@ -254,7 +254,9 @@ export class Fuzzer<T> {
   }
 
   /** Create a new fuzzer based on the results of this fuzzer. */
-  public andThen<B>(callback: (value: T) => Fuzzer<B>): Fuzzer<B> {
+  public andThen<TResult>(
+    callback: (value: T) => Fuzzer<TResult>,
+  ): Fuzzer<TResult> {
     return Fuzzer.andThen(this, callback);
   }
 
