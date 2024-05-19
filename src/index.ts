@@ -81,7 +81,10 @@ export class Fuzzer<T> {
   // STATIC METHODS
 
   /** Transforms the result of a fuzzer. */
-  public static map<A, B>(fuzzer: Fuzzer<A>, func: (value: A) => B): Fuzzer<B> {
+  public static map<T1, TResult>(
+    fuzzer: Fuzzer<T1>,
+    func: (value: T1) => TResult,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(fuzzer[$generate]()));
   }
 
