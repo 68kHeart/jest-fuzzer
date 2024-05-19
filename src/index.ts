@@ -263,10 +263,10 @@ export function fuzz<T1>(
 export function fuzz2<T1, T2>(
   fuzzerA: Fuzzer<T1>,
   fuzzerB: Fuzzer<T2>,
-  desc: string,
+  description: string,
   func: (first: T1, second: T2) => void,
 ): void {
-  test(desc, () => {
+  test(description, () => {
     for (let i = 0; i < TEST_PASSES; i += 1) {
       func(fuzzerA[$generate](), fuzzerB[$generate]());
     }
