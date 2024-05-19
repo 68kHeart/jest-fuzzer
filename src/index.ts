@@ -206,26 +206,26 @@ export class Fuzzer<T> {
   }
 
   /** Transforms the results of eight fuzzers. */
-  public static map8<A, B, C, D, E, F, G, H, I>(
+  public static map8<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
     func: (
-      first: A,
-      second: B,
-      third: C,
-      fourth: D,
-      fifth: E,
-      sixth: F,
-      seventh: G,
-      eighth: H,
-    ) => I,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    fuzzerG: Fuzzer<G>,
-    fuzzerH: Fuzzer<H>,
-  ): Fuzzer<I> {
+      first: T1,
+      second: T2,
+      third: T3,
+      fourth: T4,
+      fifth: T5,
+      sixth: T6,
+      seventh: T7,
+      eighth: T8,
+    ) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+    fuzzerD: Fuzzer<T4>,
+    fuzzerE: Fuzzer<T5>,
+    fuzzerF: Fuzzer<T6>,
+    fuzzerG: Fuzzer<T7>,
+    fuzzerH: Fuzzer<T8>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
