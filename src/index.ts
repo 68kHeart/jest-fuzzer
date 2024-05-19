@@ -102,7 +102,7 @@ export class Fuzzer<T> {
 
   /** Transforms the results of three fuzzers. */
   public static map3<T1, T2, T3, TResult>(
-    func: (first: T1, second: T2, third: T3) => TResult,
+    func: (a: T1, b: T2, c: T3) => TResult,
     fuzzerA: Fuzzer<T1>,
     fuzzerB: Fuzzer<T2>,
     fuzzerC: Fuzzer<T3>,
