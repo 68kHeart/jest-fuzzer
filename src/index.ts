@@ -4,13 +4,13 @@ import { test } from "@jest/globals";
 
 const $generate = Symbol("Fuzzer/generate");
 
-export class Fuzzer<A> {
+export class Fuzzer<T> {
   /** Given a PRNG seed between 0 and 1, generate a value. */
-  private generator: (prng: number) => A;
+  private generator: (prng: number) => T;
 
   // CONSTRUCTORS
 
-  private constructor(func: (prng: number) => A) {
+  private constructor(func: (prng: number) => T) {
     this.generator = func;
   }
 
@@ -239,17 +239,17 @@ export class Fuzzer<A> {
   // INSTANCE METHODS
 
   /** Transforms the result of this fuzzer. */
-  public map<B>(func: (value: A) => B): Fuzzer<B> {
+  public map<B>(func: (value: T) => B): Fuzzer<B> {
     return Fuzzer.map(this, func);
   }
 
   /** Create a new fuzzer based on the results of this fuzzer. */
-  public andThen<B>(callback: (value: A) => Fuzzer<B>): Fuzzer<B> {
+  public andThen<B>(callback: (value: T) => Fuzzer<B>): Fuzzer<B> {
     return Fuzzer.andThen(this, callback);
   }
 
   /** Generate the value described by this fuzzer. */
-  public [$generate](): A {
+  public [$generate](): T {
     return this.generator(Math.random());
   }
 }
