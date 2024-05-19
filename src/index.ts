@@ -4,13 +4,13 @@ import { test } from "@jest/globals";
 
 const $generate = Symbol("Fuzzer/generate");
 
-export class Fuzzer<A> {
+export class Fuzzer<T> {
   /** Given a PRNG seed between 0 and 1, generate a value. */
-  private generator: (prng: number) => A;
+  private generator: (prng: number) => T;
 
   // CONSTRUCTORS
 
-  private constructor(func: (prng: number) => A) {
+  private constructor(func: (prng: number) => T) {
     this.generator = func;
   }
 
@@ -61,7 +61,7 @@ export class Fuzzer<A> {
    *
    * Useful when defining larger fuzzers and you need hardcoded values.
    */
-  public static constant<A>(value: A): Fuzzer<A> {
+  public static constant<T>(value: T): Fuzzer<T> {
     return new Fuzzer(_prng => value);
   }
 
@@ -69,7 +69,7 @@ export class Fuzzer<A> {
    *
    * The generated array can be large, small, even empty!
    */
-  public static array<A>(fuzzer: Fuzzer<A>): Fuzzer<Array<A>> {
+  public static array<T>(fuzzer: Fuzzer<T>): Fuzzer<Array<T>> {
     return new Fuzzer(prng => {
       // Favor smaller arrays
       const length = Math.floor(100 * (prng ** 30));
@@ -81,16 +81,19 @@ export class Fuzzer<A> {
   // STATIC METHODS
 
   /** Transforms the result of a fuzzer. */
-  public static map<A, B>(fuzzer: Fuzzer<A>, func: (value: A) => B): Fuzzer<B> {
+  public static map<T1, TResult>(
+    fuzzer: Fuzzer<T1>,
+    func: (value: T1) => TResult,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(fuzzer[$generate]()));
   }
 
   /** Transforms the results of two fuzzers. */
-  public static map2<A, B, C>(
-    func: (first: A, second: B) => C,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-  ): Fuzzer<C> {
+  public static map2<T1, T2, TResult>(
+    func: (first: T1, second: T2) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
@@ -98,12 +101,12 @@ export class Fuzzer<A> {
   }
 
   /** Transforms the results of three fuzzers. */
-  public static map3<A, B, C, D>(
-    func: (first: A, second: B, third: C) => D,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-  ): Fuzzer<D> {
+  public static map3<T1, T2, T3, TResult>(
+    func: (first: T1, second: T2, third: T3) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
@@ -112,13 +115,13 @@ export class Fuzzer<A> {
   }
 
   /** Transforms the results of four fuzzers. */
-  public static map4<A, B, C, D, E>(
-    func: (first: A, second: B, third: C, fourth: D) => E,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-  ): Fuzzer<E> {
+  public static map4<T1, T2, T3, T4, TResult>(
+    func: (first: T1, second: T2, third: T3, fourth: T4) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+    fuzzerD: Fuzzer<T4>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
@@ -128,14 +131,14 @@ export class Fuzzer<A> {
   }
 
   /** Transforms the results of five fuzzers. */
-  public static map5<A, B, C, D, E, F>(
-    func: (first: A, second: B, third: C, fourth: D, fifth: E) => F,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-  ): Fuzzer<F> {
+  public static map5<T1, T2, T3, T4, T5, TResult>(
+    func: (first: T1, second: T2, third: T3, fourth: T4, fifth: T5) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+    fuzzerD: Fuzzer<T4>,
+    fuzzerE: Fuzzer<T5>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
@@ -146,15 +149,22 @@ export class Fuzzer<A> {
   }
 
   /** Transforms the results of six fuzzers. */
-  public static map6<A, B, C, D, E, F, G>(
-    func: (first: A, second: B, third: C, fourth: D, fifth: E, sixth: F) => G,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-  ): Fuzzer<G> {
+  public static map6<T1, T2, T3, T4, T5, T6, TResult>(
+    func: (
+      first: T1,
+      second: T2,
+      third: T3,
+      fourth: T4,
+      fifth: T5,
+      sixth: T6,
+    ) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+    fuzzerD: Fuzzer<T4>,
+    fuzzerE: Fuzzer<T5>,
+    fuzzerF: Fuzzer<T6>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
@@ -166,24 +176,24 @@ export class Fuzzer<A> {
   }
 
   /** Transforms the results of seven fuzzers. */
-  public static map7<A, B, C, D, E, F, G, H>(
+  public static map7<T1, T2, T3, T4, T5, T6, T7, TResult>(
     func: (
-      first: A,
-      second: B,
-      third: C,
-      fourth: D,
-      fifth: E,
-      sixth: F,
-      seventh: G,
-    ) => H,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    fuzzerG: Fuzzer<G>,
-  ): Fuzzer<H> {
+      first: T1,
+      second: T2,
+      third: T3,
+      fourth: T4,
+      fifth: T5,
+      sixth: T6,
+      seventh: T7,
+    ) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+    fuzzerD: Fuzzer<T4>,
+    fuzzerE: Fuzzer<T5>,
+    fuzzerF: Fuzzer<T6>,
+    fuzzerG: Fuzzer<T7>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
@@ -196,26 +206,26 @@ export class Fuzzer<A> {
   }
 
   /** Transforms the results of eight fuzzers. */
-  public static map8<A, B, C, D, E, F, G, H, I>(
+  public static map8<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
     func: (
-      first: A,
-      second: B,
-      third: C,
-      fourth: D,
-      fifth: E,
-      sixth: F,
-      seventh: G,
-      eighth: H,
-    ) => I,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    fuzzerG: Fuzzer<G>,
-    fuzzerH: Fuzzer<H>,
-  ): Fuzzer<I> {
+      first: T1,
+      second: T2,
+      third: T3,
+      fourth: T4,
+      fifth: T5,
+      sixth: T6,
+      seventh: T7,
+      eighth: T8,
+    ) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+    fuzzerD: Fuzzer<T4>,
+    fuzzerE: Fuzzer<T5>,
+    fuzzerF: Fuzzer<T6>,
+    fuzzerG: Fuzzer<T7>,
+    fuzzerH: Fuzzer<T8>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
@@ -229,27 +239,29 @@ export class Fuzzer<A> {
   }
 
   /** Create a new fuzzer based on the results of the last fuzzer. */
-  public static andThen<A, B>(
-    fuzzer: Fuzzer<A>,
-    callback: (value: A) => Fuzzer<B>,
-  ): Fuzzer<B> {
+  public static andThen<T, TResult>(
+    fuzzer: Fuzzer<T>,
+    callback: (value: T) => Fuzzer<TResult>,
+  ): Fuzzer<TResult> {
     return callback(fuzzer[$generate]());
   }
 
   // INSTANCE METHODS
 
   /** Transforms the result of this fuzzer. */
-  public map<B>(func: (value: A) => B): Fuzzer<B> {
+  public map<TResult>(func: (value: T) => TResult): Fuzzer<TResult> {
     return Fuzzer.map(this, func);
   }
 
   /** Create a new fuzzer based on the results of this fuzzer. */
-  public andThen<B>(callback: (value: A) => Fuzzer<B>): Fuzzer<B> {
+  public andThen<TResult>(
+    callback: (value: T) => Fuzzer<TResult>,
+  ): Fuzzer<TResult> {
     return Fuzzer.andThen(this, callback);
   }
 
   /** Generate the value described by this fuzzer. */
-  public [$generate](): A {
+  public [$generate](): T {
     return this.generator(Math.random());
   }
 }
@@ -259,10 +271,10 @@ export class Fuzzer<A> {
 const TEST_PASSES = 100;
 
 /** Use a fuzzer to generate a value for use in a test. */
-export function fuzz<A>(
-  fuzzer: Fuzzer<A>,
+export function fuzz<T1>(
+  fuzzer: Fuzzer<T1>,
   desc: string,
-  func: (value: A) => void,
+  func: (value: T1) => void,
 ): void {
   test(desc, () => {
     for (let i = 0; i < TEST_PASSES; i += 1) {
@@ -272,11 +284,11 @@ export function fuzz<A>(
 }
 
 /** Use two fuzzers to generate two values for use in a test. */
-export function fuzz2<A, B>(
-  fuzzerA: Fuzzer<A>,
-  fuzzerB: Fuzzer<B>,
+export function fuzz2<T1, T2>(
+  fuzzerA: Fuzzer<T1>,
+  fuzzerB: Fuzzer<T2>,
   desc: string,
-  func: (first: A, second: B) => void,
+  func: (first: T1, second: T2) => void,
 ): void {
   test(desc, () => {
     for (let i = 0; i < TEST_PASSES; i += 1) {
@@ -286,12 +298,12 @@ export function fuzz2<A, B>(
 }
 
 /** Use three fuzzers to generate three values for use in a test. */
-export function fuzz3<A, B, C>(
-  fuzzerA: Fuzzer<A>,
-  fuzzerB: Fuzzer<B>,
-  fuzzerC: Fuzzer<C>,
+export function fuzz3<T1, T2, T3>(
+  fuzzerA: Fuzzer<T1>,
+  fuzzerB: Fuzzer<T2>,
+  fuzzerC: Fuzzer<T3>,
   desc: string,
-  func: (first: A, second: B, third: C) => void,
+  func: (first: T1, second: T2, third: T3) => void,
 ): void {
   test(desc, () => {
     for (let i = 0; i < TEST_PASSES; i += 1) {
@@ -304,10 +316,10 @@ export function fuzz3<A, B, C>(
  *
  * This is like `fuzz()`, except the generated value is displayed, too.
  */
-export function fuzzExplained<A>(
-  fuzzer: Fuzzer<A>,
+export function fuzzExplained<T1>(
+  fuzzer: Fuzzer<T1>,
   desc: string,
-  func: (value: A) => void,
+  func: (value: T1) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
     const a = fuzzer[$generate]();
@@ -322,11 +334,11 @@ export function fuzzExplained<A>(
  *
  * This is like `fuzz2()`, except the generated values are displayed, too.
  */
-export function fuzz2Explained<A, B>(
-  fuzzerA: Fuzzer<A>,
-  fuzzerB: Fuzzer<B>,
+export function fuzz2Explained<T1, T2>(
+  fuzzerA: Fuzzer<T1>,
+  fuzzerB: Fuzzer<T2>,
   desc: string,
-  func: (first: A, second: B) => void,
+  func: (first: T1, second: T2) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
     const a = fuzzerA[$generate]();
@@ -342,12 +354,12 @@ export function fuzz2Explained<A, B>(
  *
  * This is like `fuzz3()`, except the generated values are displayed, too.
  */
-export function fuzz3Explained<A, B, C>(
-  fuzzerA: Fuzzer<A>,
-  fuzzerB: Fuzzer<B>,
-  fuzzerC: Fuzzer<C>,
+export function fuzz3Explained<T1, T2, T3>(
+  fuzzerA: Fuzzer<T1>,
+  fuzzerB: Fuzzer<T2>,
+  fuzzerC: Fuzzer<T3>,
   desc: string,
-  func: (first: A, second: B, third: C) => void,
+  func: (first: T1, second: T2, third: T3) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
     const a = fuzzerA[$generate]();
