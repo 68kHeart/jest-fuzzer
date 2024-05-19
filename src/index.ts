@@ -249,7 +249,7 @@ export class Fuzzer<T> {
   // INSTANCE METHODS
 
   /** Transforms the result of this fuzzer. */
-  public map<B>(func: (value: T) => B): Fuzzer<B> {
+  public map<TResult>(func: (value: T) => TResult): Fuzzer<TResult> {
     return Fuzzer.map(this, func);
   }
 
