@@ -192,16 +192,7 @@ export class Fuzzer<T> {
 
   /** Transforms the results of eight fuzzers. */
   public static map8<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(
-    func: (
-      first: T1,
-      second: T2,
-      third: T3,
-      fourth: T4,
-      fifth: T5,
-      sixth: T6,
-      seventh: T7,
-      eighth: T8,
-    ) => TResult,
+    func: (a: T1, b: T2, c: T3, d: T4, e: T5, f: T6, g: T7, h: T8) => TResult,
     fuzzerA: Fuzzer<T1>,
     fuzzerB: Fuzzer<T2>,
     fuzzerC: Fuzzer<T3>,
