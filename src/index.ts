@@ -87,9 +87,9 @@ export class Fuzzer<A> {
 
   /** Transforms the results of two fuzzers. */
   public static map2<A, B, C>(
+    func: (first: A, second: B) => C,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
-    func: (first: A, second: B) => C,
   ): Fuzzer<C> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
@@ -99,10 +99,10 @@ export class Fuzzer<A> {
 
   /** Transforms the results of three fuzzers. */
   public static map3<A, B, C, D>(
+    func: (first: A, second: B, third: C) => D,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
     fuzzerC: Fuzzer<C>,
-    func: (first: A, second: B, third: C) => D,
   ): Fuzzer<D> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
@@ -113,11 +113,11 @@ export class Fuzzer<A> {
 
   /** Transforms the results of four fuzzers. */
   public static map4<A, B, C, D, E>(
+    func: (first: A, second: B, third: C, fourth: D) => E,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
     fuzzerC: Fuzzer<C>,
     fuzzerD: Fuzzer<D>,
-    func: (first: A, second: B, third: C, fourth: D) => E,
   ): Fuzzer<E> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
@@ -129,12 +129,12 @@ export class Fuzzer<A> {
 
   /** Transforms the results of five fuzzers. */
   public static map5<A, B, C, D, E, F>(
+    func: (first: A, second: B, third: C, fourth: D, fifth: E) => F,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
     fuzzerC: Fuzzer<C>,
     fuzzerD: Fuzzer<D>,
     fuzzerE: Fuzzer<E>,
-    func: (first: A, second: B, third: C, fourth: D, fifth: E) => F,
   ): Fuzzer<F> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
@@ -147,13 +147,13 @@ export class Fuzzer<A> {
 
   /** Transforms the results of six fuzzers. */
   public static map6<A, B, C, D, E, F, G>(
+    func: (first: A, second: B, third: C, fourth: D, fifth: E, sixth: F) => G,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
     fuzzerC: Fuzzer<C>,
     fuzzerD: Fuzzer<D>,
     fuzzerE: Fuzzer<E>,
     fuzzerF: Fuzzer<F>,
-    func: (first: A, second: B, third: C, fourth: D, fifth: E, sixth: F) => G,
   ): Fuzzer<G> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
@@ -167,13 +167,6 @@ export class Fuzzer<A> {
 
   /** Transforms the results of seven fuzzers. */
   public static map7<A, B, C, D, E, F, G, H>(
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    fuzzerG: Fuzzer<G>,
     func: (
       first: A,
       second: B,
@@ -183,6 +176,13 @@ export class Fuzzer<A> {
       sixth: F,
       seventh: G,
     ) => H,
+    fuzzerA: Fuzzer<A>,
+    fuzzerB: Fuzzer<B>,
+    fuzzerC: Fuzzer<C>,
+    fuzzerD: Fuzzer<D>,
+    fuzzerE: Fuzzer<E>,
+    fuzzerF: Fuzzer<F>,
+    fuzzerG: Fuzzer<G>,
   ): Fuzzer<H> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
@@ -197,14 +197,6 @@ export class Fuzzer<A> {
 
   /** Transforms the results of eight fuzzers. */
   public static map8<A, B, C, D, E, F, G, H, I>(
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    fuzzerG: Fuzzer<G>,
-    fuzzerH: Fuzzer<H>,
     func: (
       first: A,
       second: B,
@@ -215,6 +207,14 @@ export class Fuzzer<A> {
       seventh: G,
       eighth: H,
     ) => I,
+    fuzzerA: Fuzzer<A>,
+    fuzzerB: Fuzzer<B>,
+    fuzzerC: Fuzzer<C>,
+    fuzzerD: Fuzzer<D>,
+    fuzzerE: Fuzzer<E>,
+    fuzzerF: Fuzzer<F>,
+    fuzzerG: Fuzzer<G>,
+    fuzzerH: Fuzzer<H>,
   ): Fuzzer<I> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
@@ -241,119 +241,6 @@ export class Fuzzer<A> {
   /** Transforms the result of this fuzzer. */
   public map<B>(func: (value: A) => B): Fuzzer<B> {
     return Fuzzer.map(this, func);
-  }
-
-  /** Transforms the results of this and another fuzzer. */
-  public map2<B, C>(
-    fuzzerB: Fuzzer<B>,
-    func: (first: A, second: B) => C,
-  ): Fuzzer<C> {
-    return Fuzzer.map2(this, fuzzerB, func);
-  }
-
-  /** Transforms the results of this and two other fuzzers. */
-  public map3<B, C, D>(
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    func: (first: A, second: B, third: C) => D,
-  ): Fuzzer<D> {
-    return Fuzzer.map3(this, fuzzerB, fuzzerC, func);
-  }
-
-  /** Transforms the results of this and three other fuzzers. */
-  public map4<B, C, D, E>(
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    func: (first: A, second: B, third: C, fourth: D) => E,
-  ): Fuzzer<E> {
-    return Fuzzer.map4(this, fuzzerB, fuzzerC, fuzzerD, func);
-  }
-
-  /** Transforms the results of this and four other fuzzers. */
-  public map5<B, C, D, E, F>(
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    func: (first: A, second: B, third: C, fourth: D, fifth: E) => F,
-  ): Fuzzer<F> {
-    return Fuzzer.map5(this, fuzzerB, fuzzerC, fuzzerD, fuzzerE, func);
-  }
-
-  /** Transforms the results of this and five other fuzzers. */
-  public map6<B, C, D, E, F, G>(
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    func: (first: A, second: B, third: C, fourth: D, fifth: E, sixth: F) => G,
-  ): Fuzzer<G> {
-    return Fuzzer.map6(this, fuzzerB, fuzzerC, fuzzerD, fuzzerE, fuzzerF, func);
-  }
-
-  /** Transforms the results of this and six other fuzzers. */
-  public map7<B, C, D, E, F, G, H>(
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    fuzzerG: Fuzzer<G>,
-    func: (
-      first: A,
-      second: B,
-      third: C,
-      fourth: D,
-      fifth: E,
-      sixth: F,
-      seventh: G,
-    ) => H,
-  ): Fuzzer<H> {
-    return Fuzzer.map7(
-      this,
-      fuzzerB,
-      fuzzerC,
-      fuzzerD,
-      fuzzerE,
-      fuzzerF,
-      fuzzerG,
-      func,
-    );
-  }
-
-  /** Transforms the results of this and seven other fuzzers. */
-  public map8<B, C, D, E, F, G, H, I>(
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-    fuzzerE: Fuzzer<E>,
-    fuzzerF: Fuzzer<F>,
-    fuzzerG: Fuzzer<G>,
-    fuzzerH: Fuzzer<H>,
-    func: (
-      first: A,
-      second: B,
-      third: C,
-      fourth: D,
-      fifth: E,
-      sixth: F,
-      seventh: G,
-      eighth: H,
-    ) => I,
-  ): Fuzzer<I> {
-    return Fuzzer.map8(
-      this,
-      fuzzerB,
-      fuzzerC,
-      fuzzerD,
-      fuzzerE,
-      fuzzerF,
-      fuzzerG,
-      fuzzerH,
-      func,
-    );
   }
 
   /** Create a new fuzzer based on the results of this fuzzer. */
