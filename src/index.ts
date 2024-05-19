@@ -298,12 +298,12 @@ export function fuzz2<T1, T2>(
 }
 
 /** Use three fuzzers to generate three values for use in a test. */
-export function fuzz3<A, B, C>(
-  fuzzerA: Fuzzer<A>,
-  fuzzerB: Fuzzer<B>,
-  fuzzerC: Fuzzer<C>,
+export function fuzz3<T1, T2, T3>(
+  fuzzerA: Fuzzer<T1>,
+  fuzzerB: Fuzzer<T2>,
+  fuzzerC: Fuzzer<T3>,
   desc: string,
-  func: (first: A, second: B, third: C) => void,
+  func: (first: T1, second: T2, third: T3) => void,
 ): void {
   test(desc, () => {
     for (let i = 0; i < TEST_PASSES; i += 1) {
