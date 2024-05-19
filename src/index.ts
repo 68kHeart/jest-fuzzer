@@ -313,14 +313,14 @@ export function fuzzExplained<T1>(
 export function fuzz2Explained<T1, T2>(
   fuzzerA: Fuzzer<T1>,
   fuzzerB: Fuzzer<T2>,
-  desc: string,
+  description: string,
   func: (first: T1, second: T2) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
     const a = fuzzerA[$generate]();
     const b = fuzzerB[$generate]();
 
-    test(`${desc}\nValue #1: ${a}\nValue #2: ${b}`, () => {
+    test(`${description}\nValue #1: ${a}\nValue #2: ${b}`, () => {
       func(a, b);
     });
   }
