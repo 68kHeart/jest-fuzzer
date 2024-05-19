@@ -239,10 +239,10 @@ export class Fuzzer<T> {
   }
 
   /** Create a new fuzzer based on the results of the last fuzzer. */
-  public static andThen<A, B>(
-    fuzzer: Fuzzer<A>,
-    callback: (value: A) => Fuzzer<B>,
-  ): Fuzzer<B> {
+  public static andThen<T, TResult>(
+    fuzzer: Fuzzer<T>,
+    callback: (value: T) => Fuzzer<TResult>,
+  ): Fuzzer<TResult> {
     return callback(fuzzer[$generate]());
   }
 
