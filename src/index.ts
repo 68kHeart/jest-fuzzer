@@ -83,7 +83,7 @@ export class Fuzzer<T> {
   /** Transforms the result of a fuzzer. */
   public static map<T1, TResult>(
     fuzzer: Fuzzer<T1>,
-    func: (value: T1) => TResult,
+    func: (a: T1) => TResult,
   ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(fuzzer[$generate]()));
   }
@@ -249,7 +249,7 @@ export class Fuzzer<T> {
   // INSTANCE METHODS
 
   /** Transforms the result of this fuzzer. */
-  public map<TResult>(func: (value: T) => TResult): Fuzzer<TResult> {
+  public map<TResult>(func: (a: T) => TResult): Fuzzer<TResult> {
     return Fuzzer.map(this, func);
   }
 
