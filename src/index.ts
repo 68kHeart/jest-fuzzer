@@ -284,11 +284,11 @@ export function fuzz<T1>(
 }
 
 /** Use two fuzzers to generate two values for use in a test. */
-export function fuzz2<A, B>(
-  fuzzerA: Fuzzer<A>,
-  fuzzerB: Fuzzer<B>,
+export function fuzz2<T1, T2>(
+  fuzzerA: Fuzzer<T1>,
+  fuzzerB: Fuzzer<T2>,
   desc: string,
-  func: (first: A, second: B) => void,
+  func: (first: T1, second: T2) => void,
 ): void {
   test(desc, () => {
     for (let i = 0; i < TEST_PASSES; i += 1) {
