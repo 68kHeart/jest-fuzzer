@@ -316,10 +316,10 @@ export function fuzz3<T1, T2, T3>(
  *
  * This is like `fuzz()`, except the generated value is displayed, too.
  */
-export function fuzzExplained<A>(
-  fuzzer: Fuzzer<A>,
+export function fuzzExplained<T1>(
+  fuzzer: Fuzzer<T1>,
   desc: string,
-  func: (value: A) => void,
+  func: (value: T1) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
     const a = fuzzer[$generate]();
