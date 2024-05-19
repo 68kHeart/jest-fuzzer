@@ -129,12 +129,12 @@ export class Fuzzer<A> {
 
   /** Transforms the results of five fuzzers. */
   public static map5<A, B, C, D, E, F>(
+    func: (first: A, second: B, third: C, fourth: D, fifth: E) => F,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
     fuzzerC: Fuzzer<C>,
     fuzzerD: Fuzzer<D>,
     fuzzerE: Fuzzer<E>,
-    func: (first: A, second: B, third: C, fourth: D, fifth: E) => F,
   ): Fuzzer<F> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
