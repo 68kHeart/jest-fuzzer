@@ -354,12 +354,12 @@ export function fuzz2Explained<T1, T2>(
  *
  * This is like `fuzz3()`, except the generated values are displayed, too.
  */
-export function fuzz3Explained<A, B, C>(
-  fuzzerA: Fuzzer<A>,
-  fuzzerB: Fuzzer<B>,
-  fuzzerC: Fuzzer<C>,
+export function fuzz3Explained<T1, T2, T3>(
+  fuzzerA: Fuzzer<T1>,
+  fuzzerB: Fuzzer<T2>,
+  fuzzerC: Fuzzer<T3>,
   desc: string,
-  func: (first: A, second: B, third: C) => void,
+  func: (first: T1, second: T2, third: T3) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
     const a = fuzzerA[$generate]();
