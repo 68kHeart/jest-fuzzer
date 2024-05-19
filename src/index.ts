@@ -334,7 +334,7 @@ export function fuzz3Explained<T1, T2, T3>(
   fuzzerA: Fuzzer<T1>,
   fuzzerB: Fuzzer<T2>,
   fuzzerC: Fuzzer<T3>,
-  desc: string,
+  description: string,
   func: (first: T1, second: T2, third: T3) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
@@ -342,7 +342,7 @@ export function fuzz3Explained<T1, T2, T3>(
     const b = fuzzerB[$generate]();
     const c = fuzzerC[$generate]();
 
-    test(`${desc}\nValue #1: ${a}\nValue #2: ${b}\nValue #3: ${c}`, () => {
+    test(`${description}\nValue #1: ${a}\nValue #2: ${b}\nValue #3: ${c}`, () => {
       func(a, b, c);
     });
   }
