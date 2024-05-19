@@ -294,13 +294,13 @@ export function fuzz3<T1, T2, T3>(
  */
 export function fuzzExplained<T1>(
   fuzzer: Fuzzer<T1>,
-  desc: string,
+  description: string,
   func: (value: T1) => void,
 ): void {
   for (let i = 0; i < TEST_PASSES; i += 1) {
     const a = fuzzer[$generate]();
 
-    test(`${desc}\nValue #1: ${a}`, () => {
+    test(`${description}\nValue #1: ${a}`, () => {
       func(a);
     });
   }
