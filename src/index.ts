@@ -61,7 +61,7 @@ export class Fuzzer<T> {
    *
    * Useful when defining larger fuzzers and you need hardcoded values.
    */
-  public static constant<A>(value: A): Fuzzer<A> {
+  public static constant<T>(value: T): Fuzzer<T> {
     return new Fuzzer(_prng => value);
   }
 
