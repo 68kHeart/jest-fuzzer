@@ -116,7 +116,7 @@ export class Fuzzer<T> {
 
   /** Transforms the results of four fuzzers. */
   public static map4<T1, T2, T3, T4, TResult>(
-    func: (first: T1, second: T2, third: T3, fourth: T4) => TResult,
+    func: (a: T1, b: T2, c: T3, d: T4) => TResult,
     fuzzerA: Fuzzer<T1>,
     fuzzerB: Fuzzer<T2>,
     fuzzerC: Fuzzer<T3>,
