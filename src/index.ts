@@ -89,11 +89,11 @@ export class Fuzzer<T> {
   }
 
   /** Transforms the results of two fuzzers. */
-  public static map2<A, B, C>(
-    func: (first: A, second: B) => C,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-  ): Fuzzer<C> {
+  public static map2<T1, T2, TResult>(
+    func: (first: T1, second: T2) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
