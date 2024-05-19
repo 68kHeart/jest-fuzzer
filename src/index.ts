@@ -271,10 +271,10 @@ export class Fuzzer<T> {
 const TEST_PASSES = 100;
 
 /** Use a fuzzer to generate a value for use in a test. */
-export function fuzz<A>(
-  fuzzer: Fuzzer<A>,
+export function fuzz<T1>(
+  fuzzer: Fuzzer<T1>,
   desc: string,
-  func: (value: A) => void,
+  func: (value: T1) => void,
 ): void {
   test(desc, () => {
     for (let i = 0; i < TEST_PASSES; i += 1) {
