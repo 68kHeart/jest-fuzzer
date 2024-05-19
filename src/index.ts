@@ -69,7 +69,7 @@ export class Fuzzer<T> {
    *
    * The generated array can be large, small, even empty!
    */
-  public static array<A>(fuzzer: Fuzzer<A>): Fuzzer<Array<A>> {
+  public static array<T>(fuzzer: Fuzzer<T>): Fuzzer<Array<T>> {
     return new Fuzzer(prng => {
       // Favor smaller arrays
       const length = Math.floor(100 * (prng ** 30));
