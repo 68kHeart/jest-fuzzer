@@ -87,9 +87,9 @@ export class Fuzzer<A> {
 
   /** Transforms the results of two fuzzers. */
   public static map2<A, B, C>(
+    func: (first: A, second: B) => C,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
-    func: (first: A, second: B) => C,
   ): Fuzzer<C> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
