@@ -99,10 +99,10 @@ export class Fuzzer<A> {
 
   /** Transforms the results of three fuzzers. */
   public static map3<A, B, C, D>(
+    func: (first: A, second: B, third: C) => D,
     fuzzerA: Fuzzer<A>,
     fuzzerB: Fuzzer<B>,
     fuzzerC: Fuzzer<C>,
-    func: (first: A, second: B, third: C) => D,
   ): Fuzzer<D> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
