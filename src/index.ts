@@ -115,13 +115,13 @@ export class Fuzzer<T> {
   }
 
   /** Transforms the results of four fuzzers. */
-  public static map4<A, B, C, D, E>(
-    func: (first: A, second: B, third: C, fourth: D) => E,
-    fuzzerA: Fuzzer<A>,
-    fuzzerB: Fuzzer<B>,
-    fuzzerC: Fuzzer<C>,
-    fuzzerD: Fuzzer<D>,
-  ): Fuzzer<E> {
+  public static map4<T1, T2, T3, T4, TResult>(
+    func: (first: T1, second: T2, third: T3, fourth: T4) => TResult,
+    fuzzerA: Fuzzer<T1>,
+    fuzzerB: Fuzzer<T2>,
+    fuzzerC: Fuzzer<T3>,
+    fuzzerD: Fuzzer<T4>,
+  ): Fuzzer<TResult> {
     return new Fuzzer(_prng => func(
       fuzzerA[$generate](),
       fuzzerB[$generate](),
